@@ -1,57 +1,66 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-
+import { getRateLimit, getCharacterData } from "./access_token";
 const Popup = () => {
-  const [count, setCount] = useState(0);
-  const [currentURL, setCurrentURL] = useState<string>();
+	const [isExpired, setIsExpired] = useState<boolean>(false)
+	const [accessToken, setAccessToken] = useState<string>('')
+	const [rateLimit, setRateLimit] = useState<any>(null)
 
-  useEffect(() => {
-    chrome.action.setBadgeText({ text: count.toString() });
-  }, [count]);
+	useEffect(() => {
+		if (accessToken) {
+			get()
+		}
+	}, [accessToken]);
 
-  useEffect(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      setCurrentURL(tabs[0].url);
-    });
-  }, []);
+	async function get() {
+		const res = await getRateLimit(accessToken)
+		if (res && res.data) {
+			console.log(res.data)
+			setRateLimit(res.data.data.rateLimitData)
+			chrome.storage.sync.set({wclog_access_token: accessToken}, () => {
+				console.log('wclog_access_token set to ' + accessToken)
+			})
+		} else {
+			setRateLimit(null)
+			console.log(res)
+		}
+	}
 
-  const changeBackground = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const tab = tabs[0];
-      if (tab.id) {
-        chrome.tabs.sendMessage(
-          tab.id,
-          {
-            color: "#555555",
-          },
-          (msg) => {
-            console.log("result message:", msg);
-          }
-        );
-      }
-    });
-  };
+	useEffect(() => {
+		console.log("yeet")
+		chrome.storage.sync.get(['wclog_access_token'], (result) => {
+			setAccessToken(result.wclog_access_token)
+			console.log("got", result.wclog_access_token)
+		})
+	}, []);
 
-  return (
-    <>
-      <ul style={{ minWidth: "700px" }}>
-        <li>Current URL: {currentURL}</li>
-        <li>Current Time: {new Date().toLocaleTimeString()}</li>
-      </ul>
-      <button
-        onClick={() => setCount(count + 1)}
-        style={{ marginRight: "5px" }}
-      >
-        count up
-      </button>
-      <button onClick={changeBackground}>change background</button>
-    </>
-  );
+	function accessTokenDetails() {
+		if (!rateLimit) return <></>
+		return (
+			<>
+				<p>limitPerHour: {rateLimit?.limitPerHour}</p>
+				<p>pointsSpentThisHour: {rateLimit?.pointsSpentThisHour}</p>
+				<p>pointsResetIn: {rateLimit?.pointsResetIn}</p>
+			</>
+		)
+	}
+
+	return (
+		<>
+			<form>
+				<label>
+					Access token
+					<input type='text' id='accesstoken' value={accessToken} onChange={(ev) => setAccessToken(ev.target.value)}/>
+					{rateLimit && accessToken.length ? accessTokenDetails() : <p> not working</p>}
+				</label>
+			</form>
+		</>
+	);
 };
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Popup />
-  </React.StrictMode>,
-  document.getElementById("root")
+	<React.StrictMode>
+		<Popup />
+	</React.StrictMode>,
+	document.getElementById("root")
 );

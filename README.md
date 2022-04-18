@@ -68,3 +68,9 @@ Load `dist` directory
 
 ## Test
 `npx jest` or `npm run test`
+
+
+# TODO
+
+1. Show normal (checkbox)
+2. 
