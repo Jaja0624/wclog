@@ -1,46 +1,24 @@
-# Chrome Extension TypeScript Starter
+# Wclog
 
-![build](https://github.com/chibat/chrome-extension-typescript-starter/workflows/build/badge.svg)
+Adds max, average, and low DPS values from warcraftlogs.com for normal, heroic and mythic difficulties in raider.io banner
 
-Chrome Extension, TypeScript and Visual Studio Code
+![Alt text](./img/wclog.png "RIO banner")
 
-## Prerequisites
+Open popup using chrome extension icon and add access token 
 
-* [node + npm](https://nodejs.org/) (Current Version)
+![Alt text](./img/popup.png "Popup")
 
-## Option
+[How to get warcraft logs access token](https://www.warcraftlogs.com/api/docs)
 
-* [Visual Studio Code](https://code.visualstudio.com/)
+## Issues
 
-## Includes the following
-
-* TypeScript
-* Webpack
-* React
-* Jest
-* Example Code
-    * Chrome Storage
-    * Options Version 2
-    * content script
-    * count up badge number
-    * background
-
-## Project Structure
-
-* src/typescript: TypeScript source files
-* src/assets: static files
-* dist: Chrome Extension directory
-* dist/js: Generated JavaScript files
+- Only works for US/EU servers
 
 ## Setup
 
 ```
 npm install
 ```
-
-## Import as Visual Studio Code project
-
-...
 
 ## Build
 
@@ -56,21 +34,13 @@ npm run build
 npm run watch
 ```
 
-### Visual Studio Code
-
-Run watch mode.
-
-type `Ctrl + Shift + B`
-
 ## Load extension to chrome
+
+[Load an unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked)
 
 Load `dist` directory
 
-## Test
-`npx jest` or `npm run test`
 
+## Credits
 
-# TODO
-
-1. Show normal (checkbox)
-2. 
+https://github.com/chibat/chrome-extension-typescript-starter
