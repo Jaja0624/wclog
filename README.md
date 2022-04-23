@@ -1,6 +1,6 @@
 # Wclog
 
-Adds max, average, and low DPS/HPS values from warcraftlogs.com for normal, heroic and mythic difficulties in raider.io banner
+A chrome extension that injects a table into raider.io banner with max, average, and low DPS/HPS values from warcraftlogs.com
 
 ![Alt text](./img/wclog.png "RIO banner")
 
