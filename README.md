@@ -1,6 +1,6 @@
 # Wclog
 
-Adds max, average, and low DPS values from warcraftlogs.com for normal, heroic and mythic difficulties in raider.io banner
+Adds max, average, and low DPS/HPS values from warcraftlogs.com for normal, heroic and mythic difficulties in raider.io banner
 
 ![Alt text](./img/wclog.png "RIO banner")
 
